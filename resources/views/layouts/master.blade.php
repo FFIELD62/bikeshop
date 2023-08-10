@@ -20,6 +20,25 @@
 </head>
 
 <body>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">BikeShop</a>
+        </div>
+            
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            <li><a href="#">หน้าแรก</a></li>
+            <li><a href="{{ URL::to('product') }}">ข้อมูลสินค้า </a></li>
+            <li><a href="#">ประเภทสินค้า</a></li>
+            <li><a href="#">รายงาน</a></li>
+            </ul>
+        </div>
+    </nav> 
     @yield("content")
     @if(session('msg'))
     @if(session('ok'))
@@ -28,6 +47,7 @@
     <script>toastr.error("{{ session('msg') }}")</script>
     @endif
     @endif
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+</div>
 </body>
 </html>
