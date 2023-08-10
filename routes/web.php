@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +21,6 @@ Route::get('/', function() {
 
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'index']);
 Route::post('/product/search', [App\Http\Controllers\ProductController::class, 'search']);
+Route::get('/product/edit/{id?}', [App\Http\Controllers\ProductController::class, 'edit']);
+Route::post('/product/update', [App\Http\Controllers\ProductController::class, 'update']);
+
