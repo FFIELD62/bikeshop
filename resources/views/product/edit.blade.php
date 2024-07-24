@@ -1,3 +1,4 @@
+{{-- Product --}}
 @extends("layouts.master")
 @section('title') BikeShop | รายการสินค้า @stop
 @section('content')

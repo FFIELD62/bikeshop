@@ -10,7 +10,7 @@ use App\Models\Category;
 
 
 class ProductController extends Controller {
-    var $rp = 2;
+    var $rp = 4;
     public function index() {
         $products = Product::paginate($this->rp);
         return view('product/index', compact('products'));
@@ -31,12 +31,17 @@ class ProductController extends Controller {
 
     public function edit($id = null) {
         $categories = Category::pluck('name', 'id')->prepend('เลือกรายการ', '');
-        $product = Product::find($id);
-
-        return view('product/edit')
+        if($id) {
+        // edit view
+        $product = Product::where('id', $id)->first(); return view('product/edit')
         ->with('product', $product)
         ->with('categories', $categories);
-    }
+        } else {
+        // add view
+        return view('product/add')
+        ->with('categories', $categories);
+        }
+        }
 
     public function update(Request $request) {
         $rules = array(
@@ -77,10 +82,59 @@ class ProductController extends Controller {
         $product->stock_qty = $request->stock_qty;
         
         $product->save(); 
+
+        if($request->hasFile('image'))
+            {
+            $f = $request->file('image');
+            $upload_to = 'upload/images'; 
+
+            $relative_path = $upload_to.'/'.$f->getClientOriginalName();
+            $absolute_path = public_path().'/'.$upload_to;
+            $f->move($absolute_path, $f->getClientOriginalName());
+            $product->image_url = $relative_path;
+            $product->save(); 
+            }
+       
         
         return redirect('product')
         ->with('ok', true)
         ->with('msg', 'บันทึกขอมูลเรียบร้อยแลว้');
        }
+
+       public function insert(Request $request) {
+        // validation ไว้เขียนทีหลัง ความสําคัญน้อยกว่า วิธีเอาค่าจากฟอร์ม มาบันทึกครับ
+        
+        $product = new Product();
+        $product->code = $request->code;
+        $product->name = $request->name;
+        $product->category_id = $request->category_id;
+        $product->price = $request->price;
+        $product->stock_qty = $request->stock_qty;
+        $product->save();
+
+        if($request->hasFile('image'))
+        {
+        $f = $request->file('image');
+        $upload_to = 'upload/images'; 
+
+        $relative_path = $upload_to.'/'.$f->getClientOriginalName();
+        $absolute_path = public_path().'/'.$upload_to;
+        $f->move($absolute_path, $f->getClientOriginalName());
+        $product->image_url = $relative_path;
+        $product->save(); 
+        }
+        
+        return redirect('product')
+        ->with('ok', true)
+        ->with('msg', 'เพิ่มข้อมูลเรียบร้อยแล้ว ');
+        }
+
+        public function remove($id) {
+            Product::find($id)->delete();
+            return redirect('product')
+            ->with('ok', true)
+            ->with('msg', 'ลบข้อมูลสําเร็จ');
+            }
+
     
     }

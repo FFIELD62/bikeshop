@@ -20,6 +20,7 @@
 </head>
 
 <body>
+    <center><h1>นายคณิน ชูสุวรรณ รหัสนักศึกษา 6406021631019</h1></center>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 
 
@@ -34,7 +35,7 @@
             <ul class="nav navbar-nav">
             <li><a href="#">หน้าแรก</a></li>
             <li><a href="{{ URL::to('product') }}">ข้อมูลสินค้า </a></li>
-            <li><a href="#">ประเภทสินค้า</a></li>
+            <li><a href="{{ URL::to('category') }}">ประเภทสินค้า</a></li>
             <li><a href="#">รายงาน</a></li>
             </ul>
         </div>
